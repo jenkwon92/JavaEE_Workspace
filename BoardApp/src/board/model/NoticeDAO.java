@@ -127,6 +127,7 @@ public class NoticeDAO {
 	}
 
 	// 게시물 1건 수정
+	// 잘모를경우 반환을 void로 해두고 마지막에 변경해도됨
 	public int update(Notice notice) {
 		Connection con = null;
 		PreparedStatement pstmt = null;

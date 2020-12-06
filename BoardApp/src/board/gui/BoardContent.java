@@ -18,8 +18,8 @@ public class BoardContent extends Page {
 	JTextArea area;
 	JScrollPane scroll;
 	JButton bt_list, bt_edit, bt_del;
-	Notice notice;
-	NoticeDAO noticeDAO;
+	Notice notice; //VO
+	NoticeDAO noticeDAO; //DAO
 
 	public BoardContent(BoardMain boardMain) {
 		super(boardMain);

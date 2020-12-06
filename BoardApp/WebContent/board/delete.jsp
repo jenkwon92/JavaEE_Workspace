@@ -4,7 +4,7 @@
 <%@ page import="java.sql.*"%>
 <%@ include file="/inc/lib.jsp"%>
 <%
-	String notice_id = request.getParameter("notice_id");
+	String notice_id = request.getParameter("notice_id"); //웹에서 주고받는 모든 데이터는 문자
 	NoticeDAO noticeDAO = new NoticeDAO();
 	
 	int result = noticeDAO.delete(Integer.parseInt(notice_id)); //DML수행
