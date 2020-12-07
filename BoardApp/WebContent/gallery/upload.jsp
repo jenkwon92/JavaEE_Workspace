@@ -1,7 +1,7 @@
 <%@page import="java.io.File"%>
 <%@page import="common.FileManager"%>
 <%@page import="java.io.IOException"%>
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%
 	/*
@@ -47,8 +47,9 @@
 		//결국 파일을 다루어야 하므로 javaSE의 File 클래스를 이용하면 된다!!!
 		//File 클래스의 .api문서를 찾아서, 파일명을 바꾸는 메서드를 찾아보세요, 찾으면 제보하기!!!!
 		//스트림과 상관없고, 파일을 제어하는 거라서 파일 클래스의 메서드를 찾아보세요 
-		//누가 누가 빨리 찾나, 최시씨가 잘 찾았어요, renameTo라는 메서드를 열어보세요
+		//renameTo라는 메서드를 열어보세요
 		File savedFile = multi.getFile("photo");
+		//기존File클래스의.renameTo(새롭게 만들파일)
 		savedFile.renameTo(new File(saveDirectory+"/"+filename));//파일명 교체!!
 		
 		//클라이언트에게 전송할 응답정보를 가진 객체,
