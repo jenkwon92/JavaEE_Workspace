@@ -102,7 +102,7 @@ $(function(){
 	<input type="hidden" name="depth" value="<%=qna.getDepth()%>">
 
     <label for="fname">First Name</label>
-    <input type="text" id="fname" name="author" value="<%=qna.getWriter()%>">
+    <input type="text" id="fname" name="writer" value="<%=qna.getWriter()%>">
 
     <label for="lname">title</label>
     <input type="text" id="lname" name="title" value="<%=qna.getTitle()%>">
