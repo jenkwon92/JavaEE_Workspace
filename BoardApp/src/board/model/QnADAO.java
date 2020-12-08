@@ -167,16 +167,55 @@ public class QnADAO {
 	}
 
 	// update :
-	public int update() {
-		
-		
+	public int update(QnA qna) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		int result = 0;
+		
+		String sql ="UPDATE qna SET writer=?, title=?, content=? WHERE qna_id=?";
+		
+		con = dbManager.getConnection();
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qna.getWriter());
+			pstmt.setString(2, qna.getTitle());
+			pstmt.setString(3, qna.getContent());
+			pstmt.setInt(4, qna.getQna_id());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt);
+		}
 		return result;
 	}
 
 	// delete
-	public int delete() {
+	public int delete(int qna_id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;		
+		String sql = "DELETE FROM qna WHERE qna_id=?";
 		int result = 0;
+		
+		con = dbManager.getConnection();
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,qna_id);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.release(con, pstmt);
+		}	
 		return result;
 	}
 }
+
+
+
+
+
+
+
+

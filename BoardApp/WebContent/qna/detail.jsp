@@ -63,11 +63,11 @@ $(function(){
 	$($("input[type='button']")[0]).click(function(){ //목록으로
 		location.href="/qna/list.jsp";
 	});
+	
 	$($("input[type='button']")[1]).click(function(){//수정요청
 		if(confirm("수정하시겠어요?")){
 			$("form").attr({
 				method:"post",
-				enctype:"multipart/form-data",
 				action:"/qna/edit.jsp"
 			});
 			$("form").submit(); //전송행위!!!
