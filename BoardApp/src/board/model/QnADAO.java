@@ -47,9 +47,53 @@ public class QnADAO {
 	 * 
 	 * 2.빈 공간을 내가 차지!!(답변) insert qna(~team, rank, depth)
 	 * values(내본team,내본rank+1,내본depth+1)
+	 * 
+	 * 트랜잭션이란?
+	 * 세부업무가 모두 성공해야 전체를 성공으로 간주하는 논리적 업무수행 단위
 	 */
-	public int reply() {
+	public int reply(QnA qna) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		int result = 0;
+		con = dbManager.getConnection();
+		
+		try {
+			con.setAutoCommit(false); //자동 커밋이 기본으로 true로 되어있음(SQLplus처럼 내가 결정할꼐)
+			
+			String sql = "UPDATE qna SET rank=rank+1 WHERE team=? AND rank >?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qna.getTeam());
+			pstmt.setInt(2, qna.getRank());;
+			result = pstmt.executeUpdate();
+			
+			sql = "INSERT INTO qna (writer, title, content, team, rank, depth)";
+			sql+= " VALUES(?,?,?,?,?,?)";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qna.getWriter());
+			pstmt.setString(2, qna.getTitle());
+			pstmt.setString(3, qna.getContent());
+			pstmt.setInt(4, qna.getTeam());
+			pstmt.setInt(5, qna.getRank()+1); //내본글 다음에 위치할 것이므로 +1
+			pstmt.setInt(6, qna.getDepth()+1); //내본글에 대한 답변이므로 +1
+			result = pstmt.executeUpdate();
+			
+			con.commit(); //여기서 커밋, 즉 둘다 에러나지 않고 try를 완료하면 모두 성공으로 간주하고 commit
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();//두 쿼리문 중 에러가 하나라도 발생하면, 차라리 처음부터 없었던 일로 간주
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} 
+		}finally {
+			try {
+				con.setAutoCommit(true);//원상복구
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} 
+			dbManager.release(con, pstmt);
+		}
 		return result;
 	}
 
@@ -124,6 +168,8 @@ public class QnADAO {
 
 	// update :
 	public int update() {
+		
+		
 		int result = 0;
 		return result;
 	}

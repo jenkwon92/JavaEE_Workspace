@@ -24,8 +24,9 @@
 	
 	ServletFileUpload upload=new ServletFileUpload(itemFactory);
 	
-	//업로드된 정보 분석!!! 각각의 컴포넌트들을  FileItem 단위로 쪼갠다..
+	
 	request.setCharacterEncoding("utf-8"); //다국어 인코딩
+	//업로드된 정보 분석!!! 각각의 컴포넌트들을  FileItem 단위로 쪼갠다..
 	List<FileItem> items=upload.parseRequest(request);
 	
 	ImageBoard board = new ImageBoard();//Empty상태의 VO 생성 
