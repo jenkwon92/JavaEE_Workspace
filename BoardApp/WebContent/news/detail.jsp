@@ -72,8 +72,22 @@ $(function(){
 	$($("button")[4]).click(function(){//비동기 방식의 댓글등록
 		asyncReply();
 	});
+	//댓글 목록 가져오기 
+	asyncList();
 	
 });
+//비동기로 목록 가져오기!
+function asyncList(){
+	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			getList(this.responseText);//코멘트 리스트 동적 출력
+		}
+	};
+	xhttp.open("post", "/news/asynciist.jsp?news_id=<%=news_id%>", true);
+	xhttp.send();	
+}
+
 function asyncReply(){
 	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
 	/*
@@ -115,7 +129,7 @@ function getList(data){
 							//따라서 이 시점부터는 문자열에 불과했던 데이터를 객체처럼 접근하여 사용할 수 있다.
 	//alert(json.resultCode);
 	if(json.resultCode ==0){
-		alert("등록실패");
+		//alert("등록실패");
 	}else{
 		var jsonArray = json.commentsList; //배열을 반환
 		//alert("현재까지 등록된 댓글의 수는: " +jsonArray.length);
@@ -140,10 +154,25 @@ function getList(data){
 }
 //코멘트 삭제 
 function delComments(comments_id){
-	alert(comments_id+"를 삭제하고싶어?");
+	var ans = confirm(comments_id+"를 삭제하고싶어?");
 	
+	if(ans){// 확인버튼을 누른 경우만		
 	//삭제 후 (비동기) , 리스트가져오기(비동기)
+	var xhttp = new XMLHttpRequest(); //비동기 통신 객체
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			if(this.responseText==0){
+				alert("삭제실패");
+			}else{				
+				asyncList();
+			}
+		}
+	};
+	xhttp.open("post", "/news/asyndelete.jsp?comments_id="+comments_id, true);
+	xhttp.send();		
+	}
 }
+
 function del(){
 	//자식 코멘트가 존재한다면, 업데이트!!!
 	<%if(list.size() >0){%>
@@ -211,13 +240,7 @@ function reply(){
 			<!-- 댓글 리스트 영역 -->
 			<tr>
 				<td id ="listBox">
-					<%for(Comments comments : list){%>
-					<div>
-						<p class="msg"><%=comments.getMsg() %></p>
-						<p class="author"><%=comments.getAuthor() %></p>
-						<p class="cdate"><%=comments.getCdate().substring(0,10) %></p>
-					</div>
-					<%} %>
+					
 				</td>
 			</tr>			
 		</table>
