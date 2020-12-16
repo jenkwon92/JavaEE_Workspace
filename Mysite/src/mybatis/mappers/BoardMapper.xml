@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Board">
+	
+	<!-- 이 xml파일에는 기존 DAO가 담당하는 테이블에 대한 CRUD 쿼리를 작성한다 -->
+	
+	<insert id="insert" parameterType="Board">
+		INSERT INTO board(board_id, title, writer, content, filename)
+		VALUES (seq_board.nextval, #{title},#{writer},#{content},#{filename})
+	</insert>	
+	
+	<select id="selectAll" resultType="Board">
+		SELECT * FROM board ORDER BY board_id DESC
+	</select>
+	
+	<select id="select" parameterType="int" resultType="Board">
+		SELECT * FROM board WHERE board_id=#{board_id}
+	</select>
+	
+	<update id="update" parameterType="Board">
+		UPDATE board SET title=#{title}, writer=#{writer}, content=#{content}, filename=#{filename} WHERE board_id#{board_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board WHERE board_id=#{board_id}
+	</delete>
+</mapper>
