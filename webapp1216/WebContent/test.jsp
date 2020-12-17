@@ -7,7 +7,7 @@
 	
 	InitialContext context = new InitialContext(); //JNDI검색객체
 	
-	DataSource ds =(DataSource)context.lookup("java:comp/env/jdbc/mysql"); //톰캣서버에 설정한 리소스 찾자!
+	DataSource ds =(DataSource)context.lookup("java:comp/env/jdbc/mariadb"); //톰캣서버에 설정한 리소스 찾자!
 	//찾아낸 커넥션풀을 이용하여 커넥션한개를 끄집어내고 주소값이 나오면 성공
 	Connection con = ds.getConnection();
 	out.print(con); //주소값나오는지 확인 
