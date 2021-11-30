@@ -12,7 +12,7 @@
 			<transactionManager type="JDBC" />
 			<dataSource type="JNDI">
 				<property name="data_source"
-					value="java:comp/env/jdbc/mysql" />
+					value="java:comp/env/jdbc/mariadb" />
 			</dataSource>
 		</environment>
 	</environments>
